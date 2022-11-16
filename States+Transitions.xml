@@ -1,0 +1,68 @@
+<?xml version = "1.0" encoding = "utf-8"?>
+<mx:Application xmlns:mx = "http://www.adobe.com/2006/mxml">
+
+    <mx:ArrayCollection id = "bookCovers">
+        <mx:Object name = "vacationDay1" source = "chtp5.jpg" />	
+        <mx:Object name = "vacationDay2" source = "cpphtp6.jpg" />
+        <mx:Object name = "vacationDay3" source = "iw3htp4.jpg" />
+        <mx:Object name = "vacationDay4" source = "jhtp7.jpg" />
+        <mx:Object name = "vacationDay5" source = "vbhtp3.jpg" />
+    </mx:ArrayCollection>
+
+    <mx:Binding
+    source = "'fullsize/' +
+    bookCovers.getItemAt( selectCoverSlider.value ).source" destination = "largeImage.source" />
+    <mx:Binding source = "'fullsize/' + thumbnailList.selectedItem.source" destination = "largeImage.source" />
+
+    <mx:Panel id = "viewPanel" title = "Deitel Book Cover Viewer" width = "100%" height = "100%" horizontalAlign = "center">
+
+        <mx:HBox height = "100%" width = "100%">
+        <mx:VSlider id = "zoomSlider" value = "100" minimum = "0" maximum = "100" liveDragging = "true"
+        change = "largeImage.percentWidth = zoomSlider.value;
+        largeImage.percentHeight = zoomSlider.value;"
+        height = "100%" width = "0%"
+        labels = "[ '0%', 'Zoom', '100%' ]" />
+        <mx:VBox width = "100%" height = "100%"
+        horizontalAlign = "center">
+
+        <mx:Image id = "largeImage"
+        source = ""
+        horizontalAlign = "center"
+        verticalAlign = "middle"
+        width = "100%" height = "100%"
+        completeEffect = "Fade" />
+
+        <mx:Label text = "{ thumbnailList.selectedItem.name }" />
+        </mx:VBox>
+        </mx:HBox>
+
+        <mx:HSlider id = "selectCoverSlider" height = "0%"
+        minimum = "0" maximum = "{ bookCovers.length - 1 }"
+        showDataTip = "false" snapInterval = "1" tickInterval = "1"
+        liveDragging = "true"
+        change = "thumbnailList.selectedIndex =
+        selectCoverSlider.value;
+        thumbnailList.scrollToIndex( selectCoverSlider.value )" />
+
+        <mx:HorizontalList id = "thumbnailList"
+        dataProvider = "{ bookCovers }" width = "100%" height = "160"
+        selectedIndex = "0"
+        change = "selectCoverSlider.value = thumbnailList.selectedIndex">
+
+        <mx:itemRenderer>
+        <mx:Component>
+        <mx:VBox width = "140" height = "160"
+        horizontalAlign = "center" verticalAlign = "middle"
+        verticalScrollPolicy = "off"
+        horizontalScrollPolicy = "off" paddingBottom = "20">
+
+        <mx:Image source = "{ 'thumbs/' + data.source }"
+        verticalAlign = "middle" />
+
+        <mx:Label text = "{ data.name }" />
+        </mx:VBox>
+        </mx:Component>
+        </mx:itemRenderer>
+        </mx:HorizontalList>
+    </mx:Panel>
+</mx:Application>
