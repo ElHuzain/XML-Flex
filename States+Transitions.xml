@@ -1,6 +1,10 @@
 <?xml version = "1.0" encoding = "utf-8"?>
 <mx:Application xmlns:mx = "http://www.adobe.com/2006/mxml">
 
+    <mx:Script>
+        import mx.effects.easing.Cubic;
+    </mx:Script>
+
     <mx:ArrayCollection id = "bookCovers">
         <mx:Object name = "vacationDay1" source = "chtp5.jpg" />	
         <mx:Object name = "vacationDay2" source = "cpphtp6.jpg" />
@@ -8,6 +12,20 @@
         <mx:Object name = "vacationDay4" source = "jhtp7.jpg" />
         <mx:Object name = "vacationDay5" source = "vbhtp3.jpg" />
     </mx:ArrayCollection>
+
+    <mx:states>
+    <mx:State name = "HideThumbnails">
+    <mx:RemoveChild target = "{ thumbnailList }" />
+
+    <mx:SetEventHandler target = "{ showHideButton }" name = "click" handler = "currentState = ''" />
+    </mx:State>
+    </mx:states>
+
+    <mx:transitions>
+    <mx:Transition>
+    <mx:Resize target = "{ largeImage }" duration = "750" easingFunction = "Cubic.easeOut" />
+    </mx:Transition>
+    </mx:transitions>
 
     <mx:Binding
     source = "'fullsize/' +
@@ -64,5 +82,11 @@
         </mx:Component>
         </mx:itemRenderer>
         </mx:HorizontalList>
+
+        <mx:ControlBar>
+        <mx:LinkButton label = "Show/Hide Thumbnails"
+        click = "currentState = 'HideThumbnails';"
+        id = "showHideButton" />
+        </mx:ControlBar>
     </mx:Panel>
 </mx:Application>
